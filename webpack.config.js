@@ -6,7 +6,7 @@ module.exports = {
     entry: {
         index: './src/index.js'
     },
-    ouptut: {
+    output: {
         filename: '[name].bundle.js',
         path: path.resolve(__dirname, 'dist'),
         clean: true,
@@ -21,14 +21,7 @@ module.exports = {
     },
     module: {
         rules: [
-            {
-                test: /\.css$/i,
-                use: ['style-loader', 'css-loader'],
-            },
-            {
-                test: /\.(jpg|png)/i,
-                type: 'asset/resource',
-            }
+            
         ]
     },
     plugins: [
