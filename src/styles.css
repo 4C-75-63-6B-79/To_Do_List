@@ -1,0 +1,201 @@
+*,
+*::before,
+*::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --black-bg-color:#222;
+    --white-text-color: whitesmoke;
+    --white-border-color: white;
+    --border-thickness: 2px;
+    --border-radius: 10px;
+}
+
+body {
+    font-size: 1.1rem;
+    background-color: var(--black-bg-color);
+    color: var(--white-text-color);
+
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+}
+
+header {
+    width: 100%;
+    padding: 0.5em 0.8em;
+    background-color: inherit;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    top: 0;
+}
+
+main {
+    margin-top: 58px;
+    display: flex;
+    flex-direction: column;
+    width: inherit;
+    gap: 20px;
+}
+
+#buttonFormContainer {           /* div inside of main which containes the button for the creation of list and tasks*/
+    display: grid;
+    place-content: center;
+    padding: 0.5em 0.8em;
+    width: 100%;
+    grid-template-columns: 0.6fr;
+}
+
+#listContainer {                 /* div inside of the main which contains the task lists*/
+    display: flex; 
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: flex-start;
+    gap: 15px;
+}
+
+#addTaskButton {                  /* button at the top which create the form element to make list and the task*/
+    background-color: inherit;
+    color: inherit;
+    padding: 0.5em 0.8em;
+    border: var(--border-thickness) solid var(--white-border-color);
+    border-radius: var(--border-radius);
+    font-size: 0.85em;
+    text-align: left;
+    width: 1fr;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 5px;
+    border: var(--border-thickness) solid var(--white-border-color);
+    border-radius: var(--border-radius);
+    max-height: 20em;
+    padding: 0 0.8em;
+    overflow: auto;
+    position: relative;
+}
+
+#formTitleDiv > input,
+form > #taskListItemContainer > div > input {
+    background-color: inherit;
+    border: none;
+    outline: none;
+    font-size: 0.85em;
+    color: var(--white-text-color);
+    padding: 0.2em 0.5em;
+}
+
+#formTitleDiv {
+    position: sticky;
+    top: 0px;
+    background-color: var(--black-bg-color);
+    padding: 0.4em 0;
+    z-index: 2;
+} 
+ /*to make the title stay at top even when scrolled not wroking*/
+
+#formTitleDiv > input {
+    font-size: 1em;
+}
+
+form > #taskListItemContainer > div > img {
+    width: 18px;
+    padding: 0.05em;
+}
+
+form > #taskListItemContainer > div > img:hover {
+    background-color: #333;
+}
+
+/* div which contains the various tasks in the form*/
+#taskListItemContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    padding: 2em 0;
+}
+
+ /* div in which the plus and the text box to add list item reside*/
+#addTaskListItem,
+.taskListItem { 
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-items: center;
+    padding: 0.2em 0.5em;
+    gap: 0.2em;
+    position: relative;
+}
+
+.taskListItem > input[type='text'] {
+    flex-grow: 1;
+}
+
+.taskListItem > input[type='checkbox'] {
+    position: relative;
+    z-index: 1; /*check box cannot be checked without z index set 0 and z index of title and the close button div needs to be set to 2 to avoid checkbox been on top of title on scroll*/
+    /* height: 0;
+    width: 0; */
+}
+
+.taskListItem > input[type='checkbox']::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 13px;
+    height: 13px;
+    background-color: var(--black-bg-color);
+    border: var(--border-thickness) solid var(--white-border-color);
+    border-radius: 2px;
+}
+
+.taskListItem > input[type='checkbox']:checked::before {
+    background-color: blue;
+}
+
+.taskListItem:focus-within::after,
+#addTaskListItem:focus-within::after {
+    position: absolute;
+    content: '';
+    top: 0;
+    bottom: 0;
+    right: -0.81em;
+    left: -0.81em;
+    border-top: 2px solid var(--white-border-color);
+    border-bottom: 2px solid var(--white-border-color);
+}
+
+#formCloseButtonDiv {
+    display: flex;
+    justify-content: flex-end;
+    position: sticky; 
+    z-index: 2;
+    padding: 0.4em 0;
+    bottom: 0;
+    background-color: var(--black-bg-color);
+} /*to make the close stay at button even when scrolled not wroking*/
+
+#closeFormButton {
+    background-color: var(--black-bg-color);
+    border: none;
+    color: var(--white-text-color);
+    padding: 0.25em 0.8em;
+    border: var(--border-thickness) solid transparent;
+    border-radius: var(--border-radius);
+}
+
+#closeFormButton:hover {
+    background-color: #333; /* back ground color of the close form button on hover*/
+}
