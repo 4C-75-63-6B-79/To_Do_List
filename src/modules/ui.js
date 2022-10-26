@@ -59,12 +59,15 @@ const uiElements = (function() {
     }
 
     function createTaskFromTitle() {
+        // let titleDivContainer = document.createElement('div');
+        // titleDivContainer.setAttribute('id', 'formTitleDivContainer');
         let titleDiv = document.createElement('div');
         titleDiv.setAttribute('id', 'formTitleDiv');
         let titleInput = document.createElement('input');
         titleInput.setAttribute('type', 'text');
         titleInput.setAttribute('placeholder', 'Title');
         titleDiv.appendChild(titleInput);
+        // titleDivContainer.appendChild(titleDiv);
         return titleDiv;
     }
 
