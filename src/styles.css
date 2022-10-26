@@ -97,8 +97,8 @@ form > #taskListItemContainer > div > input {
 }
 
 #formTitleDiv {
-    position: sticky;
-    top: 0px;
+    /* position: sticky;
+    top: 0px; */
     background-color: var(--black-bg-color);
     padding: 0.4em 0;
     z-index: 2;
@@ -123,7 +123,7 @@ form > #taskListItemContainer > div > img:hover {
     display: flex;
     flex-direction: column;
     gap: 5px;
-    padding: 2em 0;
+    /* padding: 2em 0; */
 }
 
  /* div in which the plus and the text box to add list item reside*/
@@ -180,10 +180,10 @@ form > #taskListItemContainer > div > img:hover {
 #formCloseButtonDiv {
     display: flex;
     justify-content: flex-end;
-    position: sticky; 
+    /* position: sticky;  */
     z-index: 2;
     padding: 0.4em 0;
-    bottom: 0;
+    /* bottom: 0; */
     background-color: var(--black-bg-color);
 } /*to make the close stay at button even when scrolled not wroking*/
 
