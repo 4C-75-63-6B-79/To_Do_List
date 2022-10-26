@@ -171,8 +171,8 @@ form > #taskListItemContainer > div > img:hover {
     content: '';
     top: 0;
     bottom: 0;
-    right: -0.81em;
-    left: -0.81em;
+    right: -0.8em;
+    left: -0.8em;
     border-top: 2px solid var(--white-border-color);
     border-bottom: 2px solid var(--white-border-color);
 }
