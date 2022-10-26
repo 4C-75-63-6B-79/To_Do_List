@@ -1,5 +1,4 @@
-import control from './modules/task_taskList.js';
-import start from './modules/ui.js';
+import start from './modules/ui_for_taskCreate.js';
 
 import './styles.css'
 

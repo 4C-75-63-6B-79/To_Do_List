@@ -1,6 +1,8 @@
 // create a function that createst the header section the main section and 
 // the footer section.
 
+import control from './task_taskList_Data.js'
+
 import plusImage from '../assests/plus.svg';
 import closeImage from '../assests/close.svg'
 
@@ -59,15 +61,12 @@ const uiElements = (function() {
     }
 
     function createTaskFromTitle() {
-        // let titleDivContainer = document.createElement('div');
-        // titleDivContainer.setAttribute('id', 'formTitleDivContainer');
         let titleDiv = document.createElement('div');
         titleDiv.setAttribute('id', 'formTitleDiv');
         let titleInput = document.createElement('input');
         titleInput.setAttribute('type', 'text');
         titleInput.setAttribute('placeholder', 'Title');
         titleDiv.appendChild(titleInput);
-        // titleDivContainer.appendChild(titleDiv);
         return titleDiv;
     }
 
@@ -104,6 +103,11 @@ const uiElements = (function() {
         let checkBox = document.createElement('input');
         checkBox.setAttribute('type', 'checkbox');
         div.insertBefore(checkBox, div.firstChild);
+        let dateInput = document.createElement('input');
+        dateInput.setAttribute('type', 'date');
+        dateInput.setAttribute('min', getCurrentDate());
+        // dateInput.value = `${getCurrentDate()}`;
+        div.appendChild(dateInput);
         let close = document.createElement('img');
         close.setAttribute('src', closeImage);
         close.setAttribute('alt', 'close sign');
@@ -162,8 +166,20 @@ const uiElements = (function() {
     }
 
     function closeFormButtonClicked() {
+        createTaskListDetails();
         removeForm();
         createAddTaskButton();
+    }
+
+    function createTaskListDetails() {
+        let title = document.querySelector('#formTitleDiv > input').value || 'noTitle';
+        let tasksList = Array.from(document.querySelectorAll('div[data-taskindex]'));
+        let value = tasksList.map(task => [task.childNodes[1].value,task.childNodes[2].value]);
+        control(1,
+            {
+                title,
+                value
+            });
     }
 
     function removeForm() {
@@ -188,4 +204,10 @@ export default function start(document) {
         uiElements.makeMain();
         uiElements.createAddTaskButton();
     })();
+}
+
+const getCurrentDate = function() {
+    let date = new Date();
+    let month = date.getMonth() > 9 ? date.getMonth() : '0' + date.getMonth();
+    return(date.getFullYear() + '-' + month + '-' + date.getDate());
 }

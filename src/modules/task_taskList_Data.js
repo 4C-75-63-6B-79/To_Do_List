@@ -1,7 +1,7 @@
 function Task(title, dueDate, priority) {
     this.title = title;
     this.dueDate = dueDate;
-    this.priority = priority;
+    // this.priority = priority;
     this.completeStatus = false;
 }
 
@@ -32,20 +32,23 @@ const taskNTaskListManager = (function control() {
     let projects = [];
     let currentTaskList;
     
-    (function() {
-        currentTaskList = new TaskList('default', projects.length);
-        projects.push(currentTaskList);
-    })();
+    // (function() {
+    //     currentTaskList = new TaskList('default', projects.length);
+    //     projects.push(currentTaskList);
+    // })();
 
-    function createTask() {
-        let title = prompt('Enter the title of task') || 'task' + currentTaskList.taskList.length;
-        let dueDate = prompt('Enter date in dd/mm/yy');
-        let priority = prompt('Enter priority') || 0;
-        currentTaskList.taskList.push(new Task(title, dueDate, priority));
+    function projectsLength() {
+        return projects.length;
     }
 
-    function createTaskList() {
-        let title = prompt('enter the title of the list') || 'taskList';
+    function createTask(title, dueDate) {
+        // let title = prompt('Enter the title of task') || 'task' + currentTaskList.taskList.length;
+        // let dueDate = prompt('Enter date in dd/mm/yy');
+        // let priority = prompt('Enter priority') || 0;
+        currentTaskList.taskList.push(new Task(title, dueDate));
+    }
+
+    function createTaskList(title) {
         currentTaskList = new TaskList(title, projects.length);
         projects.push(currentTaskList);
     }
@@ -87,6 +90,7 @@ const taskNTaskListManager = (function control() {
     }
 
     return {
+        projectsLength,
         createTask,
         createTaskList,
         displayCurrentTaskList,
@@ -97,31 +101,14 @@ const taskNTaskListManager = (function control() {
     }
 })();
 
-export default function control(choice) {
+export default function control(choice, object=null) {
 
-    let index;
     switch(choice) {
-        case "1":
-            taskNTaskListManager.createTask();
+        case 1:
+            taskNTaskListManager.createTaskList(object.title);
+            object.value.forEach(val => taskNTaskListManager.createTask(val[0], val[1]));
+            taskNTaskListManager.displayCurrentTaskList();
             break;
-        case "2":
-            taskNTaskListManager.createTaskList();
-            break;
-        case "3":
-            return taskNTaskListManager.displayCurrentTaskList() == 0 ? 'no task in the current task list' : 'All the task of the current task list displayed';
-        case "4":
-            taskNTaskListManager.displayAllProjects();
-            break;
-        case "5":
-            index = prompt('Enter the index of task to mark complete');
-            return taskNTaskListManager.markTaskComplete(index) == 1 ? 'task marked complete' : 'index is not in range of the current task list or index was undefined';
-            break;
-        case "6":
-            index = prompt('Enter the index of task list to make current task list');
-            return taskNTaskListManager.switchCurrentTaskListTo(index) == 1 ? 'current task list is switched' : 'index is not in range of the project list or index was undefined';
-        case "7":
-            let val = taskNTaskListManager.currentTaskListIsComplete();
-            return val == 0 ? 'no task in the current task list' : val;
         default:
             console.log('Not a valid choice');
             break;

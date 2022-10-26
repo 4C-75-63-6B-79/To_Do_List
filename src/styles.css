@@ -51,7 +51,7 @@ main {
     place-content: center;
     padding: 0.5em 0.8em;
     width: 100%;
-    grid-template-columns: 0.6fr;
+    grid-template-columns: 0.4fr;
 }
 
 #listContainer {                 /* div inside of the main which contains the task lists*/
@@ -95,24 +95,22 @@ form > #taskListItemContainer > div > input {
     padding: 0.2em 0.5em;
 }
 
-/* #formTitleDivContainer {
-    position: absolute;
-    top: 0;
-    left: 0; 
-} */
-
 #formTitleDiv {
     position: sticky;
     top: 0px;
     background-color: var(--black-bg-color);
     padding: 0.4em 0;
     z-index: 2;
+    display: flex;
     /* position: relative; */
-} 
- /*to make the title stay at top even when scrolled not wroking*/
+}
 
 #formTitleDiv > input {
+    flex-grow: 1;
     font-size: 1em;
+    word-wrap: break-word;
+    word-break: break-all;
+    height:fit-content;
 }
 
 form > #taskListItemContainer > div > img {
@@ -168,6 +166,11 @@ form > #taskListItemContainer > div > img:hover {
 
 .taskListItem > input[type='checkbox']:checked::before {
     background-color: blue;
+}
+
+.taskListItem > input[type='date'] {
+    position: relative;
+    z-index: 1; /* without this the date picker was not working when clicked upon*/
 }
 
 .taskListItem:focus-within::after,
