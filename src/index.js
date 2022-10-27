@@ -1,4 +1,4 @@
-import start from './modules/ui_for_taskCreate.js';
+import start from './modules/make_task_info_form';
 
 import './styles.css'
 
