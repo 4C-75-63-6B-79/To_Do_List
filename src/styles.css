@@ -35,6 +35,7 @@ header {
     justify-content: center;
     align-items: center;
     position: fixed;
+    z-index: 3;
     top: 0;
 }
 
@@ -54,14 +55,6 @@ main {
     grid-template-columns: 0.4fr;
 }
 
-#listContainer {                 /* div inside of the main which contains the task lists*/
-    display: flex; 
-    flex-direction: row;
-    align-items: flex-start;
-    justify-content: flex-start;
-    gap: 15px;
-}
-
 #addTaskButton {                  /* button at the top which create the form element to make list and the task*/
     background-color: inherit;
     color: inherit;
@@ -79,6 +72,7 @@ form {
     gap: 5px;
     border: var(--border-thickness) solid var(--white-border-color);
     border-radius: var(--border-radius);
+    min-width: fit-content;
     max-height: 20em;
     padding: 0 0.8em;
     overflow: hidden auto;
@@ -145,31 +139,43 @@ form > #taskListItemContainer > div > img:hover {
     flex-grow: 1;
 }
 
-.taskListItem > input[type='checkbox'] {
+.taskListItem > input[type='checkbox'],
+.taskDiv > input[type='checkbox'] {
     position: relative;
     z-index: 1; /*check box cannot be checked without z index set 0 and z index of title and the close button div needs to be set to 2 to avoid checkbox been on top of title on scroll*/
     /* height: 0;
     width: 0; */
+    /* margin-top: 0.1em; */
 }
 
-.taskListItem > input[type='checkbox']::before {
-    content: '';
+.taskListItem > input[type='checkbox']::before,
+.taskDiv > input[type='checkbox']::before  {
+    content: ' ';
     position: absolute;
-    top: 0;
-    left: 0;
-    width: 13px;
-    height: 13px;
+    top: -1px;
+    left: -1px;
+    width: 15px;
+    height: 15px;
     background-color: var(--black-bg-color);
     border: var(--border-thickness) solid var(--white-border-color);
     border-radius: 2px;
 }
 
-.taskListItem > input[type='checkbox']:checked::before {
-    background-color: blue;
+.taskDiv > input[type='checkbox']::before {
+    top: 0px;
+    left: 0px;
+    width: 14px;
+    height: 14px;
+}
+
+.taskListItem > input[type='checkbox']:checked::before,
+.taskDiv > input[type='checkbox']:checked::before {
+    background-image: url(./assests/check.svg);  /*I dont know if this is a good way to do this or should this be done using javascirpt*/
 }
 
 .taskListItem > input[type='date'] {
     position: relative;
+    flex-shrink: 0;
     z-index: 1; /* without this the date picker was not working when clicked upon*/
 }
 
@@ -218,4 +224,73 @@ form > #taskListItemContainer > div > img:hover {
 
 #closeFormButton:hover {
     background-color: #333; /* back ground color of the close form button on hover*/
+}
+
+#listContainer {
+    font-family: sans-serif;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, 200px);
+    /* grid-template-rows: masonry; */
+    padding: 0.4em 2em;
+    gap: 1em;
+    justify-content: center; 
+
+    /* display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 1em;
+    justify-content: center; 
+    align-content: center;  */
+}
+
+.taskList {
+    padding: 0.5em;
+    border: var(--white-border-color) solid calc(var(--border-thickness) - 1px);
+    border-radius: var(--border-radius);
+
+    height: fit-content;
+    max-height: 339.5px;  
+
+    width: 200px;
+    /* flex: 0 0 auto; */
+    /* align-self: flex-start; */
+
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    /* gap: 0.5em; */
+}
+
+.taskList > .taskListTitle {
+    font-size: 1.15em;
+    word-wrap: break-word;
+    word-break: break-all;
+}
+
+.unCompleteTaskDiv,
+.completeTaskDiv {
+    display: flex;
+    flex-direction: column;
+    /* gap: 0.2em; */
+}
+
+.unCompleteTaskDiv > .taskDiv,
+.completeTaskDiv > .taskDiv {
+    padding: 0.4em 0;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 10px;
+}
+
+.unCompleteTaskDiv > .taskDiv > .taskTitleDiv,
+.completeTaskDiv > .taskDiv > .taskTitleDiv{
+    font-size: 0.85em;
+    line-height: 1em;
+    word-wrap: break-word;
+    word-break: break-all;
+}
+
+.completeTaskDiv {
+    opacity: 0.5;
 }

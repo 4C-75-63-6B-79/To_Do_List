@@ -1,13 +1,56 @@
-import start from './modules/make_task_info_form';
+import uiElements from './modules/make_task_info_form';
 
 import './styles.css'
 
-start(document);
-
-// makeHeader(document);
-// addTaskButton(document);
-
 console.log('to do list'); 
+
+const basic_page = (function() {
+    const body = document.querySelector('body');
+
+    const makeHeader = function() {
+        let header = document.createElement('header');
+        let h1 = document.createElement('h1');
+        h1.textContent = 'Tasks';
+        header.appendChild(h1);
+        body.appendChild(header);
+    }
+
+    const makeMain = function() {
+        let main = document.createElement('main');
+        let addTaskButtonDiv = document.createElement('div');
+        let listContainer = document.createElement('div');
+        addTaskButtonDiv.setAttribute('id', 'buttonFormContainer');
+        listContainer.setAttribute('id', 'listContainer');
+        main.appendChild(addTaskButtonDiv);
+        main.appendChild(listContainer);
+        body.appendChild(main);
+    }
+
+    // const makeEmptyColumnDiv = function(index) {
+    //     let div = document.createElement('div');
+    //     div.setAttribute('class', 'column');
+    //     div.setAttribute('data-columnIndex', index);
+    //     return div;
+    // }
+
+    return {
+        makeHeader,
+        makeMain,
+    };
+})();
+
+
+(function start() {
+    basic_page.makeHeader();
+    basic_page.makeMain();
+    uiElements.createAddTaskButton();
+})();
+
+
+// (function start() {
+//     basic_page.makeHeader();
+//     basic_page.
+// })
 
 
 // function choiceIndex() {
