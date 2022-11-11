@@ -153,7 +153,7 @@ const uiElements = (function() {
     }
 
     function createTaskListDetails() {
-        let title = document.querySelector('#formTitleDiv > input').value || 'noTitle';
+        let title = document.querySelector('#formTitleDiv > input').value || 'General Tasks';
         let tasksList = Array.from(document.querySelectorAll('div[data-formTaskindex]'));
         let values = tasksList.map(task => [task.childNodes[1].value,task.childNodes[2].value,task.childNodes[0].checked]);
         return {

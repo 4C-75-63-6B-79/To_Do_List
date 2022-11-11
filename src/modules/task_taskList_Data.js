@@ -48,7 +48,8 @@ const taskNTaskListManager = (function control() {
     }
 
     function createTaskList(title) {
-        currentTaskList = new TaskList(title+projects.length, projects.length);
+        title = title == 'General Tasks' ? title+" "+projects.length : title;
+        currentTaskList = new TaskList(title, projects.length);
         projects.push(currentTaskList);
     }
 
