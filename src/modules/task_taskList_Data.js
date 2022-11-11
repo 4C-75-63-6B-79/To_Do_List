@@ -101,6 +101,17 @@ const taskNTaskListManager = (function control() {
         return null;
     }
 
+    function updateCurrentTaskList(taskList) {
+        console.log(currentTaskList, currentTaskList.taskList);
+        currentTaskList.title = taskList.title;
+        currentTaskList.taskList = [];
+        taskList.tasks.forEach((task) => {
+            currentTaskList.taskList.push(new Task(task.title, task.dueDate, task.completeStatus));
+        })
+        console.log(currentTaskList, currentTaskList.taskList);
+        console.log(projects[Number(currentTaskList.index)]);
+    }
+
     // function currentTaskListIsComplete() {
     //     if(currentTaskList.taskList.length == 0) {
     //         return 0;
@@ -115,7 +126,8 @@ const taskNTaskListManager = (function control() {
         getCurrentTaskList,
         markTaskComplete_Uncomplete,
         switchCurrentTaskListTo,
-        getUncompletedTaskAfter
+        getUncompletedTaskAfter,
+        updateCurrentTaskList
     }
 })();
 
@@ -126,7 +138,6 @@ export default function control(choice, option) {
             taskNTaskListManager.createTaskList(option.title); // here option is object which create a new tasklist with all the task
             option.values.forEach(val => taskNTaskListManager.createTask(val[0], val[1], val[2]));
             return taskNTaskListManager.getCurrentTaskList();
-            break;
         case 2: 
             taskNTaskListManager.markTaskComplete_Uncomplete(option); // here option is the index of the task which need to be marked complete in specific task
             break;
@@ -138,6 +149,12 @@ export default function control(choice, option) {
             break;
         case 5:
             taskNTaskListManager.displayCurrentTaskList();
+            break;
+        case 6:
+            return taskNTaskListManager.getCurrentTaskList();
+            break;
+        case 7: 
+            taskNTaskListManager.updateCurrentTaskList(option);
             break;
         default:
             console.log('Not a valid choice');

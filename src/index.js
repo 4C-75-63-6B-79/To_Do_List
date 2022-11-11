@@ -1,4 +1,4 @@
-import uiElements from './modules/make_task_info_form';
+import obj from './modules/make_task_info_form';
 
 import './styles.css'
 
@@ -43,7 +43,7 @@ const basic_page = (function() {
 (function start() {
     basic_page.makeHeader();
     basic_page.makeMain();
-    uiElements.createAddTaskButton();
+    obj.uiElements.createAddTaskButton();
 })();
 
 

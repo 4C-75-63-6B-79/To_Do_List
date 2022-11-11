@@ -18,7 +18,6 @@ body {
     font-size: 1.1rem;
     background-color: var(--black-bg-color);
     color: var(--white-text-color);
-
     width: 100%;
     display: flex;
     flex-direction: column;
@@ -173,7 +172,8 @@ form > #taskListItemContainer > div > img:hover {
     background-image: url(./assests/check.svg);  /*I dont know if this is a good way to do this or should this be done using javascirpt*/
 }
 
-.taskListItem > input[type='date'] {
+.taskListItem > input[type='date'],
+.taskDiv > input [type='date'] {
     position: relative;
     flex-shrink: 0;
     z-index: 1; /* without this the date picker was not working when clicked upon*/
@@ -234,6 +234,7 @@ form > #taskListItemContainer > div > img:hover {
     padding: 0.4em 2em;
     gap: 1em;
     justify-content: center; 
+    /* position: relative; */
 
     /* display: flex;
     flex-direction: row;
@@ -249,7 +250,7 @@ form > #taskListItemContainer > div > img:hover {
     border-radius: var(--border-radius);
 
     height: fit-content;
-    max-height: 339.5px;  
+    max-height: 21em;  
 
     width: 200px;
     /* flex: 0 0 auto; */
@@ -261,10 +262,12 @@ form > #taskListItemContainer > div > img:hover {
     /* gap: 0.5em; */
 }
 
-.taskList > .taskListTitle {
+.taskListTitle {
     font-size: 1.15em;
     word-wrap: break-word;
     word-break: break-all;
+    outline: none;
+    padding: 0.2em 0;
 }
 
 .unCompleteTaskDiv,
@@ -289,8 +292,40 @@ form > #taskListItemContainer > div > img:hover {
     line-height: 1em;
     word-wrap: break-word;
     word-break: break-all;
+    max-width: 74%;
+    border: none; 
+    outline: none;
+    flex-grow: 1;
+    line-height: 1.2em;
 }
 
 .completeTaskDiv {
     opacity: 0.5;
+}
+
+#currentTaskList {
+    border: var(--border-thickness) solid var(--white-border-color);
+    border-radius: var(--border-radius);
+    background-color: var(--black-bg-color);
+    padding: 0.6em;
+    transform-origin: center;
+
+    position: absolute;
+    z-index: 4;
+    top: 25%;
+    left: 25%;
+
+    width: 50%;
+    height: fit-content;
+    max-height: 90%;
+    overflow: hidden auto;
+
+    display: flex;
+    flex-direction: column;
+}
+
+#currentTaskList input{
+    background-color: inherit;
+    border: none;
+    outline: none;
 }

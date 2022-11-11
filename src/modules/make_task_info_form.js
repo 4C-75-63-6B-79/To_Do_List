@@ -175,8 +175,6 @@ const uiElements = (function() {
     }
 })();
 
-export default uiElements;
-
 const getCurrentDate = function() {
     let date = new Date();
     let month = date.getMonth() > 9 ? date.getMonth() : '0' + date.getMonth();
@@ -192,21 +190,22 @@ const makeTaskListDiv = (function() {
         let completeTaskDiv = currentTaskListDiv.childNodes[2];
         // currentTaskListDiv
         let i=0, pos=0;
-        while(i < 9 && pos < tasksList.length) {
+        while(i < 10 && pos < tasksList.length) {
             if(!tasksList[pos].completeStatus) {
                 addListItem(tasksList[pos].title, unCompleteTaskDiv, pos, 0);
                 i += 1;
             }
             pos += 1;
         }
-        if(i > 8){
-            return;
-        }
+        // if(i > 8){
+        //     return;
+        // }
         pos = 0;
-        while(i < 9 && pos < tasksList.length) {
+        // i<9 && 
+        while(pos < tasksList.length) {
             if(tasksList[pos].completeStatus) {
                 addListItem(tasksList[pos].title, completeTaskDiv, pos, 1);
-                i += 1;
+                // i += 1;
             }
             pos += 1;
         }
@@ -217,7 +216,12 @@ const makeTaskListDiv = (function() {
         let listDiv = document.createElement('div');
         listDiv.setAttribute('class', 'taskList');
         listDiv.setAttribute('data-taskListIndex', `${index}`);
-        listDiv.addEventListener('click', () => control2(listDiv));
+        listDiv.addEventListener('click', function click() {
+            if(document.getElementById('currentTaskList')) {
+                return;
+            }
+            control2(listDiv);
+        });
         let taskListTitleDiv = document.createElement('div')
         taskListTitleDiv.setAttribute('class', 'taskListTitle');
         taskListTitleDiv.textContent = title;
@@ -259,8 +263,8 @@ const makeTaskListDiv = (function() {
         control(2, taskClicked.getAttribute('data-taskIndex'));
         let completeStatus = task.childNodes[0].checked;
         // console.log(completeStatus);
-        let completeTasksContainer = document.querySelector(`div[data-tasklistIndex="${listDivIndex}"] .completeTaskDiv`);
-        let unCompleteTaskContainer = document.querySelector(`div[data-tasklistIndex="${listDivIndex}"] .unCompleteTaskDiv`);
+        let completeTasksContainer = document.querySelector(`div[data-tasklistIndex="${listDivIndex}"] .completeTaskDiv`) || document.querySelector('#currentTaskList > .completeTaskDiv');
+        let unCompleteTaskContainer = document.querySelector(`div[data-tasklistIndex="${listDivIndex}"] .unCompleteTaskDiv`) || document.querySelector('#currentTaskList > .unCompleteTaskDiv');
         if(completeStatus) {
             markTaskComplete(taskClicked, unCompleteTaskContainer, completeTasksContainer);
         } else {
@@ -271,13 +275,16 @@ const makeTaskListDiv = (function() {
 
     function markTaskComplete(task, unCompleteTaskContainer, completeTaskContainer) {
         let lastChild = unCompleteTaskContainer.childNodes[unCompleteTaskContainer.childNodes.length - 1];
-        // console.log(lastChild);
         let lastChildIndex = lastChild.getAttribute('data-taskIndex');
-        // console.log(lastChildIndex);
         let info = control(4, lastChildIndex);
         unCompleteTaskContainer.removeChild(task);
         if(info !==  null) {
             addListItem(info.title, unCompleteTaskContainer, info.index);
+        }
+        if(task.childNodes[2]) {
+            // console.log("3 child ren present");
+            task.childNodes[1].setAttribute('contenteditable', 'false');
+            task.childNodes[2].disabled = true;
         }
         completeTaskContainer.appendChild(task);
     }
@@ -286,6 +293,11 @@ const makeTaskListDiv = (function() {
         completeTaskContainer.removeChild(task);
         let index = task.getAttribute('data-taskIndex');
         let uncompleteTasks = Array.from(unCompleteTaskContainer.childNodes);
+        if(task.childNodes[2]) {
+            task.childNodes[1].setAttribute('contenteditable', 'true');
+            task.childNodes[2].disabled = false;
+        }
+        completeTaskContainer.appendChild(task);
         if(uncompleteTasks.length === 0) {
             unCompleteTaskContainer.appendChild(task);
             return;
@@ -303,6 +315,9 @@ const makeTaskListDiv = (function() {
     }
 
     return {
-        displayCurrentTaskList
+        displayCurrentTaskList,
+        taskCheckBoxClicked
     };
 })();
+
+export default {uiElements, makeTaskListDiv};
