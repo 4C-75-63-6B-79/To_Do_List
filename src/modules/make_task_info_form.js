@@ -188,7 +188,6 @@ const makeTaskListDiv = (function() {
         let tasksList = currentTaskList.taskList;
         let unCompleteTaskDiv = currentTaskListDiv.childNodes[1];
         let completeTaskDiv = currentTaskListDiv.childNodes[2];
-        // currentTaskListDiv
         let i=0, pos=0;
         while(i < 10 && pos < tasksList.length) {
             if(!tasksList[pos].completeStatus) {
@@ -197,11 +196,7 @@ const makeTaskListDiv = (function() {
             }
             pos += 1;
         }
-        // if(i > 8){
-        //     return;
-        // }
         pos = 0;
-        // i<9 && 
         while(pos < tasksList.length) {
             if(tasksList[pos].completeStatus) {
                 addListItem(tasksList[pos].title, completeTaskDiv, pos, 1);
@@ -255,14 +250,11 @@ const makeTaskListDiv = (function() {
     }
 
     function taskCheckBoxClicked(event, listDiv, task) {
-        // console.log(listDiv.parentElement.getAttribute('data-taskListIndex'));
-        // console.log(task.getAttribute('data-taskIndex'));
         let listDivIndex = listDiv.parentElement.getAttribute('data-taskListIndex')
         let taskClicked = task;
         control(3, listDivIndex);
         control(2, taskClicked.getAttribute('data-taskIndex'));
         let completeStatus = task.childNodes[0].checked;
-        // console.log(completeStatus);
         let completeTasksContainer = document.querySelector(`div[data-tasklistIndex="${listDivIndex}"] .completeTaskDiv`) || document.querySelector('#currentTaskList > .completeTaskDiv');
         let unCompleteTaskContainer = document.querySelector(`div[data-tasklistIndex="${listDivIndex}"] .unCompleteTaskDiv`) || document.querySelector('#currentTaskList > .unCompleteTaskDiv');
         if(completeStatus) {
@@ -282,7 +274,6 @@ const makeTaskListDiv = (function() {
             addListItem(info.title, unCompleteTaskContainer, info.index);
         }
         if(task.childNodes[2]) {
-            // console.log("3 child ren present");
             task.childNodes[1].setAttribute('contenteditable', 'false');
             task.childNodes[2].disabled = true;
         }

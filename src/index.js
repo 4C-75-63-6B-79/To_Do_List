@@ -1,4 +1,5 @@
 import obj from './modules/make_task_info_form';
+import control from './modules/task_taskList_Data';
 
 import './styles.css'
 
@@ -26,13 +27,6 @@ const basic_page = (function() {
         body.appendChild(main);
     }
 
-    // const makeEmptyColumnDiv = function(index) {
-    //     let div = document.createElement('div');
-    //     div.setAttribute('class', 'column');
-    //     div.setAttribute('data-columnIndex', index);
-    //     return div;
-    // }
-
     return {
         makeHeader,
         makeMain,
@@ -44,37 +38,5 @@ const basic_page = (function() {
     basic_page.makeHeader();
     basic_page.makeMain();
     obj.uiElements.createAddTaskButton();
+    control(8);
 })();
-
-
-// (function start() {
-//     basic_page.makeHeader();
-//     basic_page.
-// })
-
-
-// function choiceIndex() {
-//     console.log("-----------------------------------");
-//     console.log("Enter the following number to do the following");
-//     console.log("1 Create Task in the current Task list");
-//     console.log("2 Create a new Task list and makes it current");
-//     console.log("3 To display all the task in the current tasklist");
-//     console.log("4 Display all the tasklist");
-//     console.log("5 Mark a task complete");
-//     console.log("6 Switch to a different task list");
-//     console.log("7 Are all the task in current task list complete");
-//     console.log("8 display controls again");
-//     console.log("-----------------------------------");
-// }
-
-// choiceIndex();
-
-// window.addEventListener("keydown", function(event) {
-//     if(event.key == '8') {
-//         choiceIndex();
-//     }
-//     let message = control(event.key);
-//     if(message) {
-//         console.log(message);
-//     }
-// });

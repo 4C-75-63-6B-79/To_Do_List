@@ -1,3 +1,5 @@
+import obj from './make_task_info_form';
+
 function Task(title, dueDate, completeStatus=false) {
     this.title = title;
     this.dueDate = dueDate;
@@ -6,9 +8,7 @@ function Task(title, dueDate, completeStatus=false) {
 }
 
 Task.prototype.markComplete_Uncomplete = function() {
-    // console.log(this.title + 'marked complete');
     this.completeStatus = this.completeStatus ? false : true;
-    // console.log(this.completeStatus);
 }
 
 Task.prototype.isComplete = function() {
@@ -33,15 +33,6 @@ TaskList.prototype.isComplete = function() {
 const taskNTaskListManager = (function control() {
     let projects = [];
     let currentTaskList;
-    
-    // (function() {
-    //     currentTaskList = new TaskList('default', projects.length);
-    //     projects.push(currentTaskList);
-    // })();
-
-    // function projectsLength() {
-    //     return projects.length;
-    // }
 
     function createTask(title, dueDate, completeStatus) {
         currentTaskList.taskList.push(new Task(title, dueDate, completeStatus));
@@ -64,18 +55,16 @@ const taskNTaskListManager = (function control() {
 
     function getCurrentTaskList() {
         const copyCurrentTaskList = Object.assign({}, currentTaskList);
+        populateStorage();
         return copyCurrentTaskList;
     }
-
-    // function displayAllProjects() {
-    //     projects.forEach(taskList => console.log(taskList.title, taskList.index));
-    // }
 
     function markTaskComplete_Uncomplete(index) {
         if(currentTaskList.taskList.length < index || !index || index == -1) {
             return 0;
         }
         currentTaskList.taskList[index].markComplete_Uncomplete();
+        populateStorage();
         return 1;
     }
 
@@ -103,22 +92,50 @@ const taskNTaskListManager = (function control() {
     }
 
     function updateCurrentTaskList(taskList) {
-        console.log(currentTaskList, currentTaskList.taskList);
         currentTaskList.title = taskList.title;
         currentTaskList.taskList = [];
         taskList.tasks.forEach((task) => {
             currentTaskList.taskList.push(new Task(task.title, task.dueDate, task.completeStatus));
         })
-        console.log(currentTaskList, currentTaskList.taskList);
-        console.log(projects[Number(currentTaskList.index)]);
+        populateStorage();
     }
 
-    // function currentTaskListIsComplete() {
-    //     if(currentTaskList.taskList.length == 0) {
-    //         return 0;
-    //     }
-    //     return currentTaskList.isComplete();
-    // }
+    function storageAvailable() {
+        let storage;
+        try {
+            storage = window.localStorage;
+            const x = '__storage test__';
+            storage.setItem(x,x);
+            storage.removeItem(x);
+            return true;
+        } catch(e) {
+            // console.log(e);
+        }
+    }
+    
+    function populateStorage() {
+        if(!storageAvailable) {
+            return;
+        }
+        localStorage.setItem(`${currentTaskList.index}`, JSON.stringify(currentTaskList));
+        // console.log(localStorage);
+    }
+
+    function printLocalStorageKeys() {
+        let keys;
+        if(storageAvailable()) {
+            keys = Object.keys(localStorage);
+        }
+        if(keys.length > 0) {
+            keys.forEach(key => {
+                let taskList = JSON.parse(localStorage.getItem(key));
+                projects.push(taskList);
+                // console.log(taskList);
+                obj.makeTaskListDiv.displayCurrentTaskList(taskList);
+            })
+        }
+        
+    }
 
     return {
         createTask,
@@ -128,7 +145,8 @@ const taskNTaskListManager = (function control() {
         markTaskComplete_Uncomplete,
         switchCurrentTaskListTo,
         getUncompletedTaskAfter,
-        updateCurrentTaskList
+        updateCurrentTaskList,
+        printLocalStorageKeys
     }
 })();
 
@@ -156,6 +174,9 @@ export default function control(choice, option) {
             break;
         case 7: 
             taskNTaskListManager.updateCurrentTaskList(option);
+            break;
+        case 8:
+            taskNTaskListManager.printLocalStorageKeys();
             break;
         default:
             console.log('Not a valid choice');

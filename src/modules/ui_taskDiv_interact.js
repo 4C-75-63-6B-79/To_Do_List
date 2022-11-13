@@ -85,7 +85,7 @@ function makeTask(index, title, dueDate, completeStatus=false) {
 
 function enterPressedOnDiv(event) {
     if(event.keyCode == '13') {
-        console.log(event.target.parentElement);
+        // console.log(event.target.parentElement);
         let parentElement = event.target.parentElement
         event.preventDefault();
         let index = parentElement.getAttribute('data-taskIndex');
@@ -130,7 +130,7 @@ function closeButtonClicked(event) {
 }
 
 function makeTaskList(parent) {
-    console.log(parent);
+    // console.log(parent);
     let title = parent.childNodes[0].textContent;
     let taskList = Array.from(document.querySelectorAll('#currentTaskList div[data-taskIndex]'));
     let tasks = [];
