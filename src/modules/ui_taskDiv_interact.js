@@ -1,6 +1,8 @@
 import control from './task_taskList_Data.js';
 import obj from './make_task_info_form';
 
+import closeImage from '../assests/close.svg';
+
 export default function control2(listDiv) {
     console.log(listDiv.getAttribute('data-taskListIndex'));
     listDiv.classList.remove('taskList');
@@ -57,6 +59,11 @@ function modifyExistingTask(taskDiv, dueDate, isEditable=true) {
     dateInput.setAttribute('value', dueDate );
     dateInput.disabled = !isEditable;
     taskDiv.appendChild(dateInput);
+    let close = document.createElement('img');
+    close.setAttribute('src', closeImage);
+    close.setAttribute('alt', 'close sign');
+    close.addEventListener('click', crossSignClicked);
+    taskDiv.appendChild(close);
 }
 
 function makeTask(index, title, dueDate, completeStatus=false) {
@@ -67,6 +74,7 @@ function makeTask(index, title, dueDate, completeStatus=false) {
     let taskTitle = document.createElement('div');
     taskTitle.setAttribute('class', 'taskTitleDiv');
     taskTitle.setAttribute('contenteditable', 'true');
+    taskTitle.addEventListener('keydown', enterPressedOnDiv);
     taskTitle.textContent = title;
     let checkBox = document.createElement('input');
     checkBox.setAttribute('type', 'checkbox');
@@ -75,13 +83,26 @@ function makeTask(index, title, dueDate, completeStatus=false) {
     let dateInput = document.createElement('input');
     dateInput.setAttribute('type', 'date');
     dateInput.setAttribute('value', dueDate);
+    let close = document.createElement('img');
+    close.setAttribute('src', closeImage);
+    close.setAttribute('alt', 'close sign');
+    close.addEventListener('click', crossSignClicked);
     if(completeStatus) {
         checkBox.checked = true;
     }
     taskDiv.appendChild(checkBox);
     taskDiv.appendChild(taskTitle);
     taskDiv.appendChild(dateInput);
+    taskDiv.appendChild(close);
     return taskDiv;
+}
+
+function crossSignClicked(event) {
+    console.log(event.target.parentElement);
+    let parent = event.target.parentElement;
+    let index = parent.getAttribute('data-taskIndex');
+    parent.parentElement.removeChild(parent);
+    decreaseDataIndexByOne(Number(index));
 }
 
 function enterPressedOnDiv(event) {
@@ -94,7 +115,7 @@ function enterPressedOnDiv(event) {
         parentElement.parentElement.insertBefore(newElement, parentElement.nextSibling);
         increaseDataIndexByOne(Number(index));
         newElement.setAttribute('data-taskIndex', Number(index) + 1);
-        newElement.addEventListener('keydown', enterPressedOnDiv);
+        // newElement.addEventListener('keydown', enterPressedOnDiv);
         newElement.childNodes[1].focus();
         makeCurrentListCenter();
     }
@@ -106,6 +127,16 @@ function increaseDataIndexByOne(index) {
         let i = task.getAttribute('data-taskIndex');
         if(Number(i) > index) {
             task.setAttribute('data-taskIndex', Number(i)+1);
+        }
+    })
+}
+
+function decreaseDataIndexByOne(index) {
+    let taskList = document.querySelectorAll('#currentTaskList div[data-taskIndex]');
+    taskList.forEach(task => {
+        let i = task.getAttribute('data-taskIndex');
+        if(Number(i) > index) {
+            task.setAttribute('data-taskIndex', Number(i)-1);
         }
     })
 }
@@ -174,7 +205,8 @@ function removeDueDateElement(parent) {
     tasksList.forEach(task => {
         task.childNodes[1].setAttribute('contenteditable', 'false');
         task.childNodes[1].removeEventListener('keydown', enterPressedOnDiv);
-        task.removeChild(task.childNodes[2])
+        task.removeChild(task.childNodes[2]);
+        task.removeChild(task.childNodes[2]);
     });
 }
 

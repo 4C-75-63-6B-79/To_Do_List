@@ -106,12 +106,14 @@ form > #taskListItemContainer > div > input {
     height:fit-content;
 }
 
-form > #taskListItemContainer > div > img {
+form > #taskListItemContainer > div > img,
+#currentTaskList img {
     width: 18px;
     padding: 0.05em;
 }
 
-form > #taskListItemContainer > div > img:hover {
+form > #taskListItemContainer > div > img:hover,
+#currentTaskList img:hover {
     background-color: #333;
 }
 
@@ -292,7 +294,7 @@ form > #taskListItemContainer > div > img:hover {
     line-height: 1em;
     word-wrap: break-word;
     word-break: break-all;
-    max-width: 74%;
+    max-width: 60%;
     border: none; 
     outline: none;
     flex-grow: 1;
