@@ -14,6 +14,7 @@ export default function control2(listDiv) {
     let unCompleteTasks = uncompleteTaskList.childNodes;
     let completeTasks = completeTaskList.childNodes;
     for(let i=0; i<unCompleteTasks.length; i++) {
+        console.log(unCompleteTasks[i]);
         let index = Number(unCompleteTasks[i].getAttribute('data-taskIndex'));
         modifyExistingTask(unCompleteTasks[i], currentTaskList.taskList[index].dueDate);
     }
@@ -93,7 +94,9 @@ function enterPressedOnDiv(event) {
         parentElement.parentElement.insertBefore(newElement, parentElement.nextSibling);
         increaseDataIndexByOne(Number(index));
         newElement.setAttribute('data-taskIndex', Number(index) + 1);
+        newElement.addEventListener('keydown', enterPressedOnDiv);
         newElement.childNodes[1].focus();
+        makeCurrentListCenter();
     }
 }
 

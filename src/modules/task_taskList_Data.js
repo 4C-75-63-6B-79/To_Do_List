@@ -49,7 +49,7 @@ const taskNTaskListManager = (function control() {
         if(currentTaskList.taskList.length == 0) {
             return 0
         }
-        currentTaskList.displayAll();
+        // currentTaskList.displayAll();
         return 1;
     }
 
@@ -117,6 +117,7 @@ const taskNTaskListManager = (function control() {
         if(!storageAvailable) {
             return;
         }
+        console.log(currentTaskList);
         localStorage.setItem(`${currentTaskList.index}`, JSON.stringify(currentTaskList));
         // console.log(localStorage);
     }
@@ -125,13 +126,17 @@ const taskNTaskListManager = (function control() {
         let keys;
         if(storageAvailable()) {
             keys = Object.keys(localStorage);
+            keys = keys.sort();
         }
+        // console.log(keys);
         if(keys.length > 0) {
             keys.forEach(key => {
                 let taskList = JSON.parse(localStorage.getItem(key));
-                projects.push(taskList);
-                // console.log(taskList);
-                obj.makeTaskListDiv.displayCurrentTaskList(taskList);
+                console.log(taskList.index);
+                createTaskList(taskList.title);
+                taskList.taskList.forEach(task => createTask(task.title, task.dueDate, task.completeStatus));
+                
+                obj.makeTaskListDiv.displayCurrentTaskList(currentTaskList);
             })
         }
         
